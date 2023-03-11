@@ -102,6 +102,15 @@
                             const res = await addressFindOneApi(params.id)
                             if(res.code === 1){
                                 this.form = res.data
+                                for (let index in this.labelList) {
+                                    if (this.labelList[index] === this.form.label) {
+                                        this.activeIndex = index
+                                        break
+                                    }
+                                }
+                                let index = parseInt(this.activeIndex) + 2
+                                let selector = '.spanItem:nth-child(' + index + ')'
+                                document.querySelector(selector).classList.add('spanActiveSchool')
                             }else{
                                 this.$notify({ type:'warning', message:res.msg});
                             }

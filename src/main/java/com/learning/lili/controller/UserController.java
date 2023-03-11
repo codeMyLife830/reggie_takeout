@@ -1,5 +1,7 @@
 package com.learning.lili.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.learning.lili.common.BaseContext;
 import com.learning.lili.common.R;
 import com.learning.lili.entity.User;
 import com.learning.lili.service.UserService;
@@ -24,7 +26,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/login")
-    public R<String> login(@RequestBody Map user, HttpSession session) {
+    public R<User> login(@RequestBody Map user, HttpSession session) {
         log.info("用户信息：{}", user.toString());
         // 1. 获取用户输入的手机号和验证码以及生成的原始验证码
         String phone = (String) user.get("phone");
@@ -36,13 +38,21 @@ public class UserController {
             rawCode = "082799";
         }
         if (inputCode.equals(rawCode)) {
-            // 3. 帮用户做一个自动注册
-            User user1 = new User();
-            user1.setPhone(phone);
-            userService.save(user1);
+            // 3. 查看当前用户是否已经存在
+            LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(User::getPhone, phone);
+            User user1 = userService.getOne(queryWrapper);
+            if (user1 == null) {
+                // 用户不存在，即为新用户
+                user1 = new User();
+                user1.setPhone(phone);
+                user1.setStatus(1);
+                userService.save(user1);
+                user1 = userService.getOne(queryWrapper);
+            }
             session.setAttribute("user", user1.getId());
-            // 4. 将User存起来
-            return R.success("登录成功");
+            session.setAttribute("mobile_app", true);
+            return R.success(user1);
         }
         return R.error("验证码有误");
     }

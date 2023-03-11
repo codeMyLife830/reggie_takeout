@@ -56,6 +56,7 @@ public class EmployeeController {
 
         // 6. 登录成功，将员工id存入Session对象并返回登录成功结果
         request.getSession().setAttribute("employee", emp.getId());
+        request.getSession().setAttribute("mobile_app", false);
         return R.success(emp);
     }
 
@@ -68,6 +69,7 @@ public class EmployeeController {
     public R<String> logout(HttpServletRequest request) {
         // 清理Session中当前保存的用户id
         request.getSession().removeAttribute("employee");
+        request.getSession().removeAttribute("mobile_app");
         return R.success("退出成功");
     }
 

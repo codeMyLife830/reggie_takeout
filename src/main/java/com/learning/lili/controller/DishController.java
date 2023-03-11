@@ -7,6 +7,7 @@ import com.learning.lili.common.R;
 import com.learning.lili.dto.DishDto;
 import com.learning.lili.entity.Category;
 import com.learning.lili.entity.Dish;
+import com.learning.lili.entity.DishFlavor;
 import com.learning.lili.service.CategoryService;
 import com.learning.lili.service.DishFlavorService;
 import com.learning.lili.service.DishService;
@@ -96,7 +97,7 @@ public class DishController {
      * @return
      */
     @GetMapping("/list")
-    public R<List<Dish>> list(Dish dish) {
+    public R<List<DishDto>> list(Dish dish) {
         // 构造查询条件
         LambdaQueryWrapper<Dish> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(dish.getCategoryId() != null, Dish::getCategoryId, dish.getCategoryId());
@@ -104,7 +105,21 @@ public class DishController {
         // 添加排序条件
         queryWrapper.orderByAsc(Dish::getSort).orderByDesc(Dish::getUpdateTime);
         List<Dish> list = dishService.list(queryWrapper);
-        return R.success(list);
+        // 添加口味信息
+        List<DishDto> dishDtoList = new ArrayList<>();
+        // 将菜品信息拷贝到dishDtoList，并添加口味信息
+        dishDtoList = list.stream().map(item -> {
+            DishDto dishDto = new DishDto();
+            BeanUtils.copyProperties(item, dishDto);
+            // 查询菜品对应口味信息
+            LambdaQueryWrapper<DishFlavor> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+            lambdaQueryWrapper.eq(DishFlavor::getDishId, dishDto.getId());
+            List<DishFlavor> flavors = dishFlavorService.list(lambdaQueryWrapper);
+            dishDto.setFlavors(flavors);
+            return dishDto;
+        }).collect(Collectors.toList());
+
+        return R.success(dishDtoList);
     }
 
     /**
