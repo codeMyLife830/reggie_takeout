@@ -80,6 +80,7 @@ public class ShoppingCartController {
         Long id = BaseContext.getCurrentId();
         LambdaQueryWrapper<ShoppingCart> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(ShoppingCart::getUserId, id);
+        queryWrapper.orderByDesc(ShoppingCart::getCreateTime);
         List<ShoppingCart> shoppingCartList = shoppingCartService.list(queryWrapper);
         return R.success(shoppingCartList);
     }
