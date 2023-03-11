@@ -31,4 +31,5 @@ git clone https://github.com/codeMyLife830/reggie_takeout.git/
 5. 修改项目文件夹中application.yml的数据库相关配置
 6. 完成上述步骤后，即可运行
 - 后台管理系统请访问：http://localhost:8080/backend/page/login/login.html
-- 移动端应用请访问：http://localhost:8080/front/page/login.html，因页面使用HTML5实现响应式，需要使用浏览器的移动端模式查看
+- 移动端应用请访问：http://localhost:8080/front/page/login.html
+- 因页面使用HTML5实现响应式，需要使用浏览器的移动端模式才能正常查看
