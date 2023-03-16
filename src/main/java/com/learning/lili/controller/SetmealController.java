@@ -12,6 +12,7 @@ import com.learning.lili.service.CategoryService;
 import com.learning.lili.service.DishService;
 import com.learning.lili.service.SetmealDishService;
 import com.learning.lili.service.SetmealService;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 @RestController
 @Slf4j
 @RequestMapping("/setmeal")
+@Api(tags="套餐管理")
 public class SetmealController {
     @Autowired
     private SetmealService setmealService;

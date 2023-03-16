@@ -2,6 +2,7 @@ package com.learning.lili.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -10,6 +11,7 @@ import java.math.BigDecimal;
  * 订单明细
  */
 @Data
+@ApiModel("订单明细")
 public class OrderDetail implements Serializable {
 
     private static final long serialVersionUID = 1L;

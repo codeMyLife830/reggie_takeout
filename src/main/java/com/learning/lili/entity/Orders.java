@@ -1,5 +1,6 @@
 package com.learning.lili.entity;
 
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
  * 订单
  */
 @Data
+@ApiModel("订单")
 public class Orders implements Serializable {
 
     private static final long serialVersionUID = 1L;

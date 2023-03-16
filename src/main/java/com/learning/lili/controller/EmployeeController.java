@@ -5,6 +5,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.learning.lili.common.R;
 import com.learning.lili.entity.Employee;
 import com.learning.lili.service.EmployeeService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
@@ -17,6 +21,7 @@ import java.time.LocalDateTime;
 @Slf4j
 @RestController
 @RequestMapping("/employee")
+@Api(tags="员工管理")
 public class EmployeeController {
 
     @Autowired
@@ -29,6 +34,11 @@ public class EmployeeController {
      * @return
      */
     @PostMapping("/login")
+    @ApiOperation(value = "后台-员工登录接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="request", value="HTTP请求对象", required = false),
+            @ApiImplicitParam(name="employee", value="待登录的员工对象", required = true)
+    })
     public R<Employee> login(HttpServletRequest request, @RequestBody Employee employee) {
         // 1. 将页面提交的密码password进行md5加密处理
         String password = employee.getPassword();
@@ -66,6 +76,10 @@ public class EmployeeController {
      * @return
      */
     @PostMapping("/logout")
+    @ApiOperation(value = "后台-员工退出登录接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="request", value="HTTP请求对象", required = false)
+    })
     public R<String> logout(HttpServletRequest request) {
         // 清理Session中当前保存的用户id
         request.getSession().removeAttribute("employee");

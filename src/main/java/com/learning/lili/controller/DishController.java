@@ -11,6 +11,7 @@ import com.learning.lili.entity.DishFlavor;
 import com.learning.lili.service.CategoryService;
 import com.learning.lili.service.DishFlavorService;
 import com.learning.lili.service.DishService;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 @RestController
 @Slf4j
 @RequestMapping("/dish")
+@Api(tags="菜品管理")
 public class DishController {
     @Autowired
     private DishService dishService;

@@ -9,6 +9,7 @@ import com.learning.lili.entity.OrderDetail;
 import com.learning.lili.entity.Orders;
 import com.learning.lili.service.OrderDetailService;
 import com.learning.lili.service.OrderService;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 @RestController
 @Slf4j
 @RequestMapping("/order")
+@Api(tags="订单管理")
 public class OrderController {
 
     @Autowired

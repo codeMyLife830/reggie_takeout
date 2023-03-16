@@ -2,6 +2,7 @@ package com.learning.lili.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
  * 员工实体
  */
 @Data
+@ApiModel("员工")
 public class Employee implements Serializable {
 
     private static final long serialVersionUID = 1L;

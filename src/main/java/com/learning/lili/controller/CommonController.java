@@ -1,6 +1,10 @@
 package com.learning.lili.controller;
 
 import com.learning.lili.common.R;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +24,7 @@ import java.util.UUID;
 @RestController
 @Slf4j
 @RequestMapping("/common")
+@Api(tags="公共请求管理")
 public class CommonController {
     @Value("${lili.path}")
     private String basePath;
@@ -29,6 +34,10 @@ public class CommonController {
      * @return
      */
     @PostMapping("/upload")
+    @ApiOperation(value = "文件上传接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="file", value="待上传的文件对象", required = true)
+    })
     public R<String> upload(MultipartFile file) {
         // 当前file是临时文件，需要转存到指定位置，否则请求结束后，该文件即被删除
         log.info("file：{}", file.toString());
@@ -62,6 +71,11 @@ public class CommonController {
      * @param response
      */
     @GetMapping("/download")
+    @ApiOperation(value = "文件下载接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="name", value="待下载的文件名称", required = true),
+            @ApiImplicitParam(name="response", value="HTTP响应对象", required = false)
+    })
     public void download(String name, HttpServletResponse response){
         log.info("文件下载name：{}", name);
         try {

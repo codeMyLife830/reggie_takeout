@@ -5,6 +5,7 @@ import com.learning.lili.common.BaseContext;
 import com.learning.lili.common.R;
 import com.learning.lili.entity.ShoppingCart;
 import com.learning.lili.service.ShoppingCartService;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequestMapping("/shoppingCart")
+@Api(tags="购物车管理")
 public class ShoppingCartController {
 
     @Autowired

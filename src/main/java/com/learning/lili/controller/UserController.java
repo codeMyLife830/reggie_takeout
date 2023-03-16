@@ -7,6 +7,7 @@ import com.learning.lili.entity.User;
 import com.learning.lili.service.UserService;
 import com.learning.lili.utils.SMSUtils;
 import com.learning.lili.utils.ValidateCodeUtils;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
@@ -24,6 +25,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/user")
 @Slf4j
+@Api(tags="用户管理")
 public class UserController {
 
     @Autowired

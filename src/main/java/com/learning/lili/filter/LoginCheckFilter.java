@@ -42,7 +42,11 @@ public class LoginCheckFilter implements Filter {
             "/front/js/**",
             "/front/api/**",
             "/front/images/**",
-            "/user/getCode"
+            "/user/getCode",
+            "/doc.html",
+            "/webjars/**",
+            "/swagger-resources",
+            "/v2/api-docs"
         };
 
         // 2. 判断本次请求是否需要处理
