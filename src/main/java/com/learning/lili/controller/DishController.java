@@ -14,6 +14,7 @@ import com.learning.lili.service.DishService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -97,6 +98,7 @@ public class DishController {
      * @return
      */
     @GetMapping("/list")
+    @Cacheable(value="dishCache", key="#dish.categoryId + '_' + #dish.status")
     public R<List<DishDto>> list(Dish dish) {
         // 构造查询条件
         LambdaQueryWrapper<Dish> queryWrapper = new LambdaQueryWrapper<>();

@@ -41,7 +41,8 @@ public class LoginCheckFilter implements Filter {
             "/front/styles/**",
             "/front/js/**",
             "/front/api/**",
-            "/front/images/**"
+            "/front/images/**",
+            "/user/getCode"
         };
 
         // 2. 判断本次请求是否需要处理

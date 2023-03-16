@@ -9,6 +9,10 @@ import com.learning.lili.utils.SMSUtils;
 import com.learning.lili.utils.ValidateCodeUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,13 +29,18 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
     @PostMapping("/login")
     public R<User> login(@RequestBody Map user, HttpSession session) {
         log.info("用户信息：{}", user.toString());
         // 1. 获取用户输入的手机号和验证码以及生成的原始验证码
         String phone = (String) user.get("phone");
         String inputCode = (String) user.get("code");
-        String rawCode = (String) session.getAttribute(phone);
+        /*String rawCode = (String) session.getAttribute(phone);*/
+        ValueOperations valueOperations = redisTemplate.opsForValue();
+        String rawCode = (String) valueOperations.get(phone);
         // 2. 比对用户输入的验证码是否正确
         // 默认登录
         if (phone.equals("13112345678")) {
@@ -74,7 +83,10 @@ public class UserController {
         // 3. 利用阿里云短信服务给当前用户发送短信
 //        SMSUtils.sendMessage("瑞吉外卖", "", phone, code1);
         // 4. 将验证码存入Session
-        session.setAttribute(phone, code1);
+        /*session.setAttribute(phone, code1);*/
+        // 4. 将验证码存入缓存
+        ValueOperations valueOperations = redisTemplate.opsForValue();
+        valueOperations.set(phone, code1);
         return R.success("验证码发送成功");
     }
 
