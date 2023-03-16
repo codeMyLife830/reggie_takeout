@@ -5,9 +5,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.learning.lili.common.R;
 import com.learning.lili.dto.SetmealDto;
 import com.learning.lili.entity.Category;
+import com.learning.lili.entity.Dish;
 import com.learning.lili.entity.Setmeal;
 import com.learning.lili.entity.SetmealDish;
 import com.learning.lili.service.CategoryService;
+import com.learning.lili.service.DishService;
 import com.learning.lili.service.SetmealDishService;
 import com.learning.lili.service.SetmealService;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +33,9 @@ public class SetmealController {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private DishService dishService;
 
     /**
      * 新增套餐
@@ -140,9 +145,15 @@ public class SetmealController {
     }
 
     @GetMapping("/dish/{id}")
-    public R<SetmealDto> dish(@PathVariable Long id) {
+    public R<List<Dish>> dish(@PathVariable Long id) {
         log.info("id: {}", id);
         SetmealDto setmealDto = setmealService.getByIdWithDish(id);
-        return R.success(setmealDto);
+        List<SetmealDish> setmealDishList = setmealDto.getSetmealDishes();
+        List<Dish> dishList = setmealDishList.stream().map(item -> {
+            Dish dish = dishService.getByIdWithFlavor(item.getDishId());
+            dish.setCopies(item.getCopies());
+            return dish;
+        }).collect(Collectors.toList());
+        return R.success(dishList);
     }
 }

@@ -70,10 +70,22 @@ public class ShoppingCartController {
         }
         ShoppingCart shoppingCart1 = shoppingCartService.getOne(queryWrapper);
         shoppingCart1.setNumber(shoppingCart1.getNumber() - 1);
-        shoppingCartService.updateById(shoppingCart1);
+        if (shoppingCart1.getNumber() == 0) {
+            shoppingCartService.removeById(shoppingCart1);
+        } else {
+            shoppingCartService.updateById(shoppingCart1);
+        }
         return R.success(shoppingCart1);
     }
 
+    @DeleteMapping("/clean")
+    public R<String> clean() {
+        Long id = BaseContext.getCurrentId();
+        LambdaQueryWrapper<ShoppingCart> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(ShoppingCart::getUserId, id);
+        shoppingCartService.remove(queryWrapper);
+        return R.success("清空购物车成功");
+    }
 
     @GetMapping("/list")
     public R<List<ShoppingCart>> list() {
